@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tejas Game</title>
+  <title>Tejas Click Game</title>
   <style>
     body {
       text-align: center;
       font-family: sans-serif;
       background-color: #f0f8ff;
     }
-    #score {
+    #score, #timer {
       font-size: 24px;
       margin-top: 20px;
     }
@@ -22,13 +22,34 @@
 <body>
   <h1>Click the Button Game!</h1>
   <p id="score">Score: 0</p>
-  <button onclick="increaseScore()">Click Me!</button>
+  <p id="timer">Time Left: 10</p>
+  <button id="clickBtn" onclick="increaseScore()">Click Me!</button>
 
   <script>
     let score = 0;
+    let timeLeft = 10;
+    let timerId;
+
+    function countdown() {
+      if (timeLeft > 0) {
+        timeLeft--;
+        document.getElementById('timer').innerText = "Time Left: " + timeLeft;
+      } else {
+        clearInterval(timerId);
+        document.getElementById('clickBtn').disabled = true;
+        alert("Time's up! Your score is: " + score);
+      }
+    }
+
+    window.onload = function() {
+      timerId = setInterval(countdown, 1000);
+    };
+
     function increaseScore() {
-      score++;
-      document.getElementById("score").innerText = "Score: " + score;
+      if (timeLeft > 0) {
+        score++;
+        document.getElementById("score").innerText = "Score: " + score;
+      }
     }
   </script>
 </body>
